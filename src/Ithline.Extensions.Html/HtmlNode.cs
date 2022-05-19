@@ -61,14 +61,6 @@ namespace Ithline.Extensions.Html
         /// <summary>
         /// Returns parsed HTML node tree from the specified input value.
         /// </summary>
-        /// <param name="text">Input string.</param>
-        /// <returns>A <see cref="HtmlNode"/> tree.</returns>
-        /// <exception cref="HtmlException">Invalid HTML format.</exception>
-        public static HtmlNode? Parse(string? text) => HtmlNodeParser.Parse(text.AsSpan());
-
-        /// <summary>
-        /// Returns parsed HTML node tree from the specified input value.
-        /// </summary>
         /// <param name="span">Input string.</param>
         /// <returns>A <see cref="HtmlNode"/> tree.</returns>
         /// <exception cref="HtmlException">Invalid HTML format.</exception>

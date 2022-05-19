@@ -7,7 +7,7 @@ namespace Ithline.Extensions.Html
     /// <summary>
     /// Represents a HTML comment.
     /// </summary>
-    [DebuggerDisplay("<!--{Comment,nq}-->")]
+    [DebuggerDisplay("<!--{Value,nq}-->")]
     public sealed class HtmlComment : HtmlNode
     {
         internal HtmlComment(string value)

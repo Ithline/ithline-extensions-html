@@ -46,7 +46,7 @@ namespace Ithline.Extensions.Html
         /// </summary>
         public HtmlNodeList Children { get; }
 
-        private string DebuggerDisplayString => IsVoidElement(ElementName.AsSpan())
+        private string DebuggerDisplayString => IsVoidElement(ElementName)
             ? $"<{ElementName}>"
             : $"<{ElementName}></{ElementName}>";
 
@@ -68,7 +68,7 @@ namespace Ithline.Extensions.Html
                 }
             }
 
-            if (IsVoidElement(ElementName.AsSpan()))
+            if (IsVoidElement(ElementName))
             {
                 output.Write("/>");
             }

@@ -89,10 +89,10 @@ namespace Ithline.Extensions.Html
         private static bool TryParseComment(ref ReadOnlySpan<char> span, [NotNullWhen(true)] out HtmlComment? htmlComment)
         {
             // if the span starts with <!-- sequence, we've found the beggining of a comment node
-            if (span.StartsWith("<!--".AsSpan(), StringComparison.Ordinal))
+            if (span.StartsWith("<!--", StringComparison.Ordinal))
             {
                 span = span.Slice(4);
-                var end = span.IndexOf("-->".AsSpan(), StringComparison.Ordinal);
+                var end = span.IndexOf("-->", StringComparison.Ordinal);
                 if (end < 0)
                 {
                     throw new HtmlException("No closing tag found for HTML comment.");
@@ -148,10 +148,10 @@ namespace Ithline.Extensions.Html
             {
                 throw new HtmlException("HTML element is not properly closed.");
             }
-            span = EnsureNotEmpty(span.Slice(1));
+            span = EnsureNotEmpty(span.Slice(1), trim: false);
 
             var children = HtmlNodeList.Empty;
-            while (!span.StartsWith("</".AsSpan(), StringComparison.OrdinalIgnoreCase))
+            while (!span.StartsWith("</", StringComparison.OrdinalIgnoreCase))
             {
                 if (ParseNode(ref span) is HtmlNode child)
                 {
@@ -282,9 +282,9 @@ namespace Ithline.Extensions.Html
         private static bool IsAlphanumeric(char ch) => ch is (>= '0' and <= '9') or (>= 'a' and <= 'z') or (>= 'A' and <= 'Z');
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static ReadOnlySpan<char> EnsureNotEmpty(ReadOnlySpan<char> span)
+        private static ReadOnlySpan<char> EnsureNotEmpty(ReadOnlySpan<char> span, bool trim = true)
         {
-            if (!span.IsEmpty && char.IsWhiteSpace(span[0]))
+            if (!span.IsEmpty && char.IsWhiteSpace(span[0]) && trim)
             {
                 span = span.TrimStart();
             }

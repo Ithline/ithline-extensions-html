@@ -7,7 +7,7 @@ namespace Ithline.Extensions.Html
     /// <summary>
     /// Represents a HTML text.
     /// </summary>
-    [DebuggerDisplay("{Text}")]
+    [DebuggerDisplay("{Value}")]
     public sealed class HtmlText : HtmlNode
     {
         internal HtmlText(string value)
