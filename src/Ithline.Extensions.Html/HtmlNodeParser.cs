@@ -6,12 +6,16 @@ namespace Ithline.Extensions.Html
 {
     internal static class HtmlNodeParser
     {
+        private static readonly char[] _trimChars = new[] { '\n', '\r', '\t', };
+
         public static HtmlNode? Parse(ReadOnlySpan<char> span)
         {
             if (span.IsEmpty)
             {
                 return null;
             }
+
+            span = span.Trim();
 
             HtmlNode? node;
             var list = HtmlNodeList.Empty;
@@ -30,6 +34,8 @@ namespace Ithline.Extensions.Html
 
         private static HtmlNode? ParseNode(ref ReadOnlySpan<char> span)
         {
+            span = span.TrimStart(_trimChars);
+
             if (span.IsEmpty)
             {
                 return null;
@@ -75,11 +81,9 @@ namespace Ithline.Extensions.Html
             {
                 var textSlice = span.Slice(0, elementStart);
                 span = span.Slice(elementStart);
-                if (!textSlice.IsWhiteSpace())
-                {
-                    htmlText = HtmlNode.Text(textSlice.ToString());
-                    return true;
-                }
+
+                htmlText = HtmlNode.Text(textSlice.ToString());
+                return true;
             }
 
             htmlText = null;
@@ -284,15 +288,16 @@ namespace Ithline.Extensions.Html
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ReadOnlySpan<char> EnsureNotEmpty(ReadOnlySpan<char> span, bool trim = true)
         {
-            if (!span.IsEmpty && char.IsWhiteSpace(span[0]) && trim)
+            if (span.IsEmpty || span.IsWhiteSpace())
+            {
+                throw new HtmlException("Unexpected EOF.");
+            }
+
+            if (trim)
             {
                 span = span.TrimStart();
             }
 
-            if (span.IsEmpty)
-            {
-                throw new HtmlException("Unexpected EOF.");
-            }
             return span;
         }
     }

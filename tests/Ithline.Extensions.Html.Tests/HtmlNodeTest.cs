@@ -7,6 +7,7 @@ public sealed class HtmlNodeTest
 {
     [Theory]
     [InlineData("<p></p>")]
+    [InlineData("<p> </p> ")]
     [InlineData("<p>abcd</p>")]
     [InlineData("<p class=white></p>")]
     [InlineData("<p class='white'></p>")]
@@ -28,6 +29,7 @@ public sealed class HtmlNodeTest
     [InlineData("<")]
     [InlineData("<p")]
     [InlineData("<p>")]
+    [InlineData("<p> ")]
     [InlineData("<p=>")]
     [InlineData("<p/>")]
     [InlineData("<p></x>")]
